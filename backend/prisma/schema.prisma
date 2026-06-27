@@ -1,0 +1,37 @@
+// This is your Prisma schema file
+// It defines your database tables as models
+
+generator client {
+  provider = "prisma-client-js"
+  // this tells Prisma to generate the JavaScript client
+  // that your Express server will use to query the database
+}
+
+datasource db {
+  provider = "postgresql"
+  // tells Prisma we're using PostgreSQL
+}
+
+model User{
+  id    Int   @id @default(autoincrement())
+  email   String    @unique
+  password  String
+  name    String
+  streak  Int   @default(0)
+  xp      Int   @default(0)
+  createdAt   DateTime    @default(now())
+  problems  Problem[]
+}
+
+model Problem{
+  id   Int  @id @default(autoincrement())
+  title String
+  difficulty  String
+  category  String
+  status    String  @default("unsolved")
+  notes     String?
+  url       String?
+  createdAt DateTime @default(now())
+  userId    Int
+  user      User  @relation(fields:[userId], references: [id])
+}
