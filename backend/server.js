@@ -1,11 +1,18 @@
 require('dotenv').config()
 const express = require('express')
 const app = express()
+const cors = require ('cors')
 
 app.use(express.json())
 //middleware going through the json\
+app.use(cors({
+    origin: 'http://localhost:5173'
+}))
+
 const authRoutes = require('./routes/auth')
 //importing auth router (from auth.js)
+const problemRoutes = require('./routes/problems')
+app.use('/api/problems', problemRoutes)
 app.use('/api/auth', authRoutes)
 // mounts the auth routes at /api/auth
 // so /register becomes /api/auth/register

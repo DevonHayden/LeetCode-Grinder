@@ -24,8 +24,9 @@ model User{
 }
 
 model Problem{
-  id   Int  @id @default(autoincrement())
-  title String
+  id        Int  @id @default(autoincrement())
+  title     String
+  number    Int?
   difficulty  String
   category  String
   status    String  @default("unsolved")
