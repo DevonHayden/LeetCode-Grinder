@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
 
@@ -12,7 +13,13 @@ app.use('/api/auth', authRoutes)
 app.get('/' , (req, res)=> {
     res.json({message: 'LeetCode Grinder API is running'})
 })
+const{protect} = require('./middleware/authMiddleware')
+//proctecting middleware
+app.get('/api/protected', protect, (req, res) => {
+    res.json({message: 'You are auhthorized', user: req.user})
+})
 
 app.listen(3000, ()=>{
     console.log('Server running on port 3000')
 })
+

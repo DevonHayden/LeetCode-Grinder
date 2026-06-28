@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken')
+//importing the webtoken library
 const bcrypt = require('bcrypt')
 //for hasing passwords
 const prisma = require('../db/prismaClient')
@@ -50,9 +52,19 @@ const login = async(req,res) => {
             return res.status(400).json({message: 'Invalid email or password'})
         }
 
-        res.status(200).json({message:'Login successful', userId: user.id})
+       const token = jwt.sign(
+        {userId: user.id, email: user.email},
+        //payload ie stuff inside token
+        process.env.JWT_SECRET,
+        {expiresIn: '7d'}
+       )
+       res.status(200).json({
+        message: 'Login successful',
+        token, 
+        //sending token back to fe
+        userId: user.id
+       })
         //200 = all good
-        //add jwt tokens 
     }catch(error){
         res.status(500).json({message:'Server error', error: error.message})
     }
