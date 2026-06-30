@@ -14,7 +14,19 @@ function Dashboard(){
     const [status, setStatus] = useState('unsolved')
     const [notes, setNotes] = useState('')
     const [url, setUrl] = useState('')
-// one state variable for each field in the add problem form
+    // one state variable for each field in the add problem form
+    const [filterCategory, setFilterCategory] = useState('all')
+    const [filterDifficulty, setFilterDifficulty] = useState('all')
+    const [filterStatus, setFilterStatus] = useState('all')
+// 'all' means no filter applied for that field
+    const filteredProblems = problems.filter(problem => {
+        const matchesCategory = filterCategory === 'all' || problem.category === filterCategory
+        const matchesDifficulty = filterDifficulty ==='all' || problem.difficulty === filterDifficulty
+        const matchesStatus = filterStatus === 'all' || problem.status === filterStatus
+        return matchesCategory && matchesDifficulty && matchesStatus
+    })
+
+
 
     useEffect(()=>{
         fetchProblems()
@@ -86,12 +98,13 @@ function Dashboard(){
                         <option value="medium">Medium</option>
                         <option value="hard">Hard</option>
                     </select>
-                    <input
-                        type="text"
-                        placeHolder="Category (e.g. Arrays, Math, etc)"
-                        value={category}
-                        onChange={(e)=> setCategory(e.target.value)}
-                        />
+                    <select value={category} onChange={(e) => setCategory(e.target.value)}>
+                        <option value="">Select Category</option>
+                        <option value="arrays">Arrays</option>
+                        <option value="trees">Trees</option>
+                        <option value="graphs">Graphs</option>
+                        <option value="dp">DP</option>
+                    </select>
                      <select value={status} onChange={(e) => setStatus(e.target.value)}>
                         <option value="unsolved">Unsolved</option>
                         <option value="attempted">Attempted</option>
@@ -112,16 +125,40 @@ function Dashboard(){
                     <button type ="submit">Add Problem</button>
                     </form>
 
-            {problems.length===0 ? (
+            <h2>Filters</h2>
+            <select value={filterCategory} onChange ={(e) => setFilterCategory(e.target.value)}>
+                <option value ="all">All Catergories</option>
+                <option value ="arrays">Arrays</option>
+                <option value ="trees">Trees</option>
+                <option value ="graphs">Graphs</option>
+                <option value ="dp">DP</option>
+            </select>
+            <select value={filterDifficulty} onChange={(e) => setFilterDifficulty(e.target.value)}>
+                <option value="all">All Difficulties</option>
+                <option value ="easy">Easy</option>
+                <option value ="medium">Medium</option>
+                <option value ="hard">Hard</option>
+            </select>
+            <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
+                <option value ="all">All Statuses</option>
+                <option value ="unsolved">Unsolved</option>
+                <option value ="attempted">Attempted</option>
+                <option value="solved">Solved</option>
+            </select>
+
+
+
+            {filteredProblems.length===0 ? (
                 <p>No problems added yet! Add one!</p>
             ) : (
                     
-                problems.map(problem => (
+                filteredProblems.map(problem => (
                     <div key={problem.id}>
                          <h3>{problem.title}</h3>
                         <p>Difficulty:{problem.difficulty}</p>
                         <p>Category: {problem.category}</p>
                         <p>Status: {problem.status}</p>
+                        <p>Problem #{problem.number}</p>
                         <button onClick={() => deleteProblem(problem.id)}>Delete</button>
                     </div>
                 ))
