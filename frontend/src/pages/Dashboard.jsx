@@ -51,6 +51,17 @@ function Dashboard(){
             setError('Failed to add problem')
         }
     }
+
+    const deleteProblem = async (id) => {
+        try{
+            await axios.delete(`http://localhost:3000/api/problems/${id}`, {
+                headers: {Authorization: `Bearer ${token}`}
+            })
+            fetchProblems()
+        }catch(err){
+            setError('Failed to delete problem')
+        }
+    } 
     return(
         <div>
             <h1>Dashboard</h1>
@@ -100,6 +111,7 @@ function Dashboard(){
                         />
                     <button type ="submit">Add Problem</button>
                     </form>
+
             {problems.length===0 ? (
                 <p>No problems added yet! Add one!</p>
             ) : (
@@ -110,6 +122,7 @@ function Dashboard(){
                         <p>Difficulty:{problem.difficulty}</p>
                         <p>Category: {problem.category}</p>
                         <p>Status: {problem.status}</p>
+                        <button onClick={() => deleteProblem(problem.id)}>Delete</button>
                     </div>
                 ))
             )}
