@@ -20,12 +20,15 @@ function Dashboard(){
     const [filterStatus, setFilterStatus] = useState('all')
 // 'all' means no filter applied for that field
     const [stats, setStats] = useState(null)
+    const [search, setSearch] = useState('')
+
 
 const filteredProblems = problems.filter(problem => {
         const matchesCategory = filterCategory === 'all' || problem.category === filterCategory
         const matchesDifficulty = filterDifficulty ==='all' || problem.difficulty === filterDifficulty
         const matchesStatus = filterStatus === 'all' || problem.status === filterStatus
-        return matchesCategory && matchesDifficulty && matchesStatus
+        const matchesSearch = search === '' || problem.title.toLowerCase().includes(search.toLowerCase())
+        return matchesCategory && matchesDifficulty && matchesStatus && matchesSearch
     })
 
 
@@ -174,7 +177,12 @@ const filteredProblems = problems.filter(problem => {
             </select>
 
 
-
+            <input
+                type ="text"
+                placeHolder="Search problems ..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+            />
             {filteredProblems.length===0 ? (
                 <p>No problems added yet! Add one!</p>
             ) : (
