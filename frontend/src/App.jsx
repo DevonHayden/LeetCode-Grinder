@@ -9,6 +9,9 @@ import Dashboard from './pages/Dashboard'
 //importing from Dashboard.jsx
 import Patterns from './pages/Patterns'
 //importing from Patterns.jsx
+import Resources from './pages/Resources'
+//importing from Resources.jsx
+
 
 function App() {
   return (
@@ -18,6 +21,7 @@ function App() {
         <Route path="/register" element={<Register/>}/>
         <Route path="/dashboard" element={<Dashboard/>} />
         <Route path="/patterns" element={<Patterns/>} />
+        <Route path="/resources" element={<Resources/>} />
       </Routes>
     </BrowserRouter>
   )
