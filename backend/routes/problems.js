@@ -2,9 +2,8 @@ const express = require('express')
 const router = express.Router()
 const {protect} = require('../middleware/authMiddleware')
 //protection ie all probs rewuire a jwt token
-const {getProblems, createProblem, updateProblem, deleteProblem} = require('../controllers/problemController')
+const {getProblems, createProblem, updateProblem, deleteProblem, getStats} = require('../controllers/problemController')
 //importing all frunctions from problemController.js
-
 
 router.get('/', protect, getProblems)
 // GET /api/problems — get all problems for the logged in user
@@ -18,5 +17,5 @@ router.put('/:id', protect, updateProblem)
 
 router.delete('/:id', protect, deleteProblem)
 // DELETE /api/problems/1 — delete problem with id 1
-
+router.get('/stats', protect, getStats)
 module.exports = router

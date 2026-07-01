@@ -19,7 +19,9 @@ function Dashboard(){
     const [filterDifficulty, setFilterDifficulty] = useState('all')
     const [filterStatus, setFilterStatus] = useState('all')
 // 'all' means no filter applied for that field
-    const filteredProblems = problems.filter(problem => {
+    const [stats, setStats] = useState(null)
+
+const filteredProblems = problems.filter(problem => {
         const matchesCategory = filterCategory === 'all' || problem.category === filterCategory
         const matchesDifficulty = filterDifficulty ==='all' || problem.difficulty === filterDifficulty
         const matchesStatus = filterStatus === 'all' || problem.status === filterStatus
@@ -30,6 +32,7 @@ function Dashboard(){
 
     useEffect(()=>{
         fetchProblems()
+        fetchStats()
         //fetching as soon as it loads
     }, [])
     const fetchProblems = async() =>{
@@ -45,6 +48,18 @@ function Dashboard(){
         }
     }
 
+    const fetchStats = async() => {
+        try{
+            const response = await axios.get('http://localhost:3000/api/problems/stats', {
+                headers: {Authorization: `Bearer ${token}`}
+            })
+            setStats(response.data)
+        }catch(err){
+            console.error('Failed to fetch stats', err)
+        }
+    }
+
+
     const addProblem = async (e)=>{
         e.preventDefault()
         try{
@@ -59,6 +74,7 @@ function Dashboard(){
                 setNotes('')
                 setUrl('')
                 fetchProblems()
+                fetchStats()
         }catch(err){
             setError('Failed to add problem')
         }
@@ -70,6 +86,7 @@ function Dashboard(){
                 headers: {Authorization: `Bearer ${token}`}
             })
             fetchProblems()
+            fetchStats()
         }catch(err){
             setError('Failed to delete problem')
         }
@@ -78,7 +95,17 @@ function Dashboard(){
         <div>
             <h1>Dashboard</h1>
             {error && <p style={{color: 'red'}}>{error}</p>}
-            
+            {stats && (
+                <div>
+                    <h2>Your Stats</h2>
+                    <p>Total Problems: {stats.totalProblems}</p>
+                    <p>Total Solved: {stats.totalSolved}</p>
+                    <h3>Solved by Difficulty</h3>
+                    {stats.byDifficulty.map(item => (
+                        <p key={item.difficulty}>{item.difficulty}: {item._count}</p>
+                    ))}
+                </div>
+            )}
             <h2>Add Problem</h2>
                  <form onSubmit={addProblem}>
                     <input

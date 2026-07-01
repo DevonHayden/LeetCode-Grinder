@@ -14,6 +14,27 @@ const getProblems = async(req, res) =>{
     }
 }
 
+const getStats = async(req, res) =>{
+    try{
+        const userId = req.user.userId
+
+        const totalSolved = await prisma.problem.count({
+            where: {userId, status: 'solved'}
+        })
+        const totalProblems = await prisma.problem.count({
+            where: {userId}
+        })
+        const byDifficulty = await prisma.problem.groupBy({
+            by: ['difficulty'],
+            where: {userId, status: 'solved'},
+            _count: true
+        })
+        res.status(200).json({totalSolved, totalProblems, byDifficulty})
+    }catch(error){
+        res.status(500).json({message: 'Server error', error: error.message})
+    }
+}
+
 const createProblem = async(req, res) =>{
     try{
         const{title, number, difficulty, category, status, notes, url} = req.body
@@ -62,4 +83,4 @@ const deleteProblem = async (req, res) =>{
 }
 
 
-module.exports={getProblems, createProblem, updateProblem, deleteProblem}
+module.exports={getProblems, createProblem, updateProblem, deleteProblem, getStats}
