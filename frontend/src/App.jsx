@@ -1,6 +1,3 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-// BrowserRouter handles the URL
-// Routes and Route define which component shows at which URL
 import Login from './pages/Login'
 //importing the login page from Login.jsx
 import Register from './pages/Register'
@@ -11,18 +8,32 @@ import Patterns from './pages/Patterns'
 //importing from Patterns.jsx
 import Resources from './pages/Resources'
 //importing from Resources.jsx
+import Navbar from './components/Navbar'
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 
+function Layout(){
+  const location = useLocation()
+  const hideNavbar = location.pathname === '/login' || location.pathname === '/register'
+  return(
+    <div className="flex">
+      {!hideNavbar && <Navbar />}
+      <div className={!hideNavbar ? 'ml-64 flex-1 p-8' : 'flex-1'}>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register/>}/>
+          <Route path="/dashboard" element={<Dashboard/>} />
+          <Route path="/patterns" element={<Patterns/>} />
+          <Route path="/resources" element={<Resources/>} />
+        </Routes>
+      </div>
+    </div>
+  )
+}
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register/>}/>
-        <Route path="/dashboard" element={<Dashboard/>} />
-        <Route path="/patterns" element={<Patterns/>} />
-        <Route path="/resources" element={<Resources/>} />
-      </Routes>
+        <Layout />
     </BrowserRouter>
   )
 }
