@@ -30,6 +30,7 @@ model Problem{
   difficulty  String
   category  String
   status    String  @default("unsolved")
+  needsReview Boolean @default(false)
   notes     String?
   url       String?
   createdAt DateTime @default(now())

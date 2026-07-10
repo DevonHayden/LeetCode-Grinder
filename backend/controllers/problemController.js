@@ -82,5 +82,21 @@ const deleteProblem = async (req, res) =>{
     }
 }
 
+const toggleReview = async (req, res) =>{
+    try{
+        const{id} = req.params
+        const problem = await prisma.problem.findUnique({
+            where:{id: parseInt(id)}
+        })
 
-module.exports={getProblems, createProblem, updateProblem, deleteProblem, getStats}
+        const updatedProblem = await prisma.problem.update({
+            where:{id: parseInt(id)},
+            data:{needsReview: !problem.needsReview}
+        })
+        res.status(200).json(updatedProblem)
+    }catch(error){
+        res.status(500).json({message:'Server error', error: error.message})
+    }
+}
+
+module.exports={getProblems, createProblem, updateProblem, deleteProblem, getStats, toggleReview}

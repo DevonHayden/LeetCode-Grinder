@@ -94,6 +94,17 @@ const filteredProblems = problems.filter(problem => {
             setError('Failed to delete problem')
         }
     } 
+    const toggleReview = async (id) => {
+        try{
+            await axios.patch(`http://localhost:3000/api/problems/${id}/review`, {}, {
+                headers: {Authorization: `Bearer ${token}`}
+            })
+            fetchProblems()
+        }catch(err){
+            setError('Failed to update review status')
+        }
+    }
+
     return(
         <div>
             <h1>Dashboard</h1>
@@ -108,6 +119,19 @@ const filteredProblems = problems.filter(problem => {
                         <p key={item.difficulty}>{item.difficulty}: {item._count}</p>
                     ))}
                 </div>
+            )}
+
+            {problems.filter(p => p.needsReview).length > 0 && (
+                <div>
+                    <h2>Reviewed Problems</h2>
+                    {problems.filter(p => p.needsReview).map(problem => (
+                        <div key ={problem.id}>
+                            <h3>{problem.title}</h3>
+                            <p>Category: {problem.category} | Difficulty: {problem.difficulty}</p>
+                            <button onClick={() => toggleReview(problem.id)}>Remove from Review</button>
+                        </div>
+                    ))}
+                  </div>  
             )}
             <h2>Add Problem</h2>
                  <form onSubmit={addProblem}>
@@ -195,7 +219,10 @@ const filteredProblems = problems.filter(problem => {
                         <p>Status: {problem.status}</p>
                         <p>Problem #{problem.number}</p>
                         <button onClick={() => deleteProblem(problem.id)}>Delete</button>
-                    </div>
+                        <button onClick={() => toggleReview(problem.id)}>
+                            {problem.needsReview ? 'Remove from Reviewed' : 'Add to Review'}
+                        </button>
+                    </div>  
                 ))
             )}
         </div>

@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const {protect} = require('../middleware/authMiddleware')
 //protection ie all probs rewuire a jwt token
-const {getProblems, createProblem, updateProblem, deleteProblem, getStats} = require('../controllers/problemController')
+const {getProblems, createProblem, updateProblem, deleteProblem, getStats, toggleReview} = require('../controllers/problemController')
 //importing all frunctions from problemController.js
 
 router.get('/', protect, getProblems)
@@ -18,4 +18,8 @@ router.put('/:id', protect, updateProblem)
 router.delete('/:id', protect, deleteProblem)
 // DELETE /api/problems/1 — delete problem with id 1
 router.get('/stats', protect, getStats)
+
+router.patch('/:id/review', protect, toggleReview)
+// PATCH /api/problems/1 — toggle review status for problem with id 1
+
 module.exports = router
