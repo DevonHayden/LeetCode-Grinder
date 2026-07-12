@@ -257,26 +257,42 @@ const filteredProblems = problems.filter(problem => {
                 />
                 </div>
             </div>
-            {filteredProblems.length===0 ? (
-                <p>No problems added yet! Add one!</p>
-            ) : (
-                    
-                filteredProblems.map(problem => (
-                    <div key={problem.id}>
-                         <h3>{problem.title}</h3>
-                        <p>Difficulty:{problem.difficulty}</p>
-                        <p>Category: {problem.category}</p>
-                        <p>Status: {problem.status}</p>
-                        <p>Problem #{problem.number}</p>
-                        <button onClick={() => deleteProblem(problem.id)}>Delete</button>
-                        <button onClick={() => toggleReview(problem.id)}>
-                            {problem.needsReview ? 'Remove from Reviewed' : 'Add to Review'}
-                        </button>
-                    </div>  
-                ))
-            )}
-        </div>
+            <div className="bg-white border border-gray-300 rounded-lg p-6">
+                <h2 className="text-xl font-bold mb-4">Problems</h2>
+                {filteredProblems.length===0 ? (
+                    <p className="text-gray-500">No problems Added Yet! Add One!</p>
+                ):(
+                    <div className="grid grid-cols-1 gap-4">
+                        {filteredProblems.map(problem => (
+                            <div key={problem.id} className="border border-gray-200 rounded-lg p-4 flex justify-between items-center">
+                                <div>
+                                    <h3 className="font-bold text-lg">
+                                        #{problem.number} {problem.title}
+                                    </h3>
+                                    <p className="text-sm text-gray-600">
+                                        {problem.category} • {problem.difficulty} • {problem.status}
+                                    </p>
+                                </div>
+                                <div className="flex gap-2">
+                                    <button
+                                    onClick={() => toggleReview(problem.id)}
+                                    className="bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold rounded px-3 py-1"
+                                    >
+                                        {problem.needsReview ? 'Remove Review' : 'Add Review'}
+                                    </button>
+                                    <button
+                                    onClick={()=> deleteProblem(problem.id)}
+                                    className="bg-red-600 hover:bg-red-700 text-white text-sm font-semibold rounded px-3 py-1"
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                        </div>
+                )}
+                </div>
+            </div>
     )
-}
-
+}    
 export default Dashboard
