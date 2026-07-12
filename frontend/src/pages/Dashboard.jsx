@@ -214,34 +214,49 @@ const filteredProblems = problems.filter(problem => {
                         </form>
                     </div>
 
-            <h2>Filters</h2>
-            <select value={filterCategory} onChange ={(e) => setFilterCategory(e.target.value)}>
-                <option value ="all">All Catergories</option>
-                <option value ="arrays">Arrays</option>
-                <option value ="trees">Trees</option>
-                <option value ="graphs">Graphs</option>
-                <option value ="dp">DP</option>
-            </select>
-            <select value={filterDifficulty} onChange={(e) => setFilterDifficulty(e.target.value)}>
-                <option value="all">All Difficulties</option>
-                <option value ="easy">Easy</option>
-                <option value ="medium">Medium</option>
-                <option value ="hard">Hard</option>
-            </select>
-            <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
-                <option value ="all">All Statuses</option>
-                <option value ="unsolved">Unsolved</option>
-                <option value ="attempted">Attempted</option>
-                <option value="solved">Solved</option>
-            </select>
-
-
-            <input
-                type ="text"
-                placeHolder="Search problems ..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-            />
+            <div className="mb-8 bg-white border border-gray-300 rounded-lg p-6">
+                <h2 className="text-xl font-bold mb-4">Filters</h2>
+                <div className="grid grid-cols-4 gap-4">
+                    <select
+                    value={filterCategory}
+                    onChange={(e) => setFilterCategory(e.target.value)}
+                    className="border border-gray-300 rounded-lg p-2"
+                    >
+                        <option value="all">All Categories</option>
+                        <option value="arrays">Arrays</option>
+                        <option value="trees">Trees</option>
+                        <option value="graphs">Graphs</option>
+                        <option value="dp">DP</option>
+                    </select>
+                    <select
+                    value={filterDifficulty}
+                    onChange={(e) => setFilterDifficulty(e.target.value)}
+                    className="border border-gray-300 rounded-lg p-2"
+                    >
+                        <option value="all">All Difficulties</option>
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                    <select
+                    value={filterStatus}
+                    onChange={(e) => setFilterStatus(e.target.value)}
+                    className="border border-gray-300 rounded-lg p-2"
+                    >
+                        <option value="all">All Statuses</option>
+                        <option value="unsolved">Unsolved</option>
+                        <option value="attempted">Attempted</option>
+                        <option value="solved">Solved</option>
+                    </select>
+                    <input 
+                    type="text"
+                    placeholder="Search problems..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    className="border border-gray-300 rounded-lg p-2"
+                />
+                </div>
+            </div>
             {filteredProblems.length===0 ? (
                 <p>No problems added yet! Add one!</p>
             ) : (
