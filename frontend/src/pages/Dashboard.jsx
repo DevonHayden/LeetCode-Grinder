@@ -107,11 +107,11 @@ const filteredProblems = problems.filter(problem => {
 
     return(
         <div>
-            <h1>Dashboard</h1>
+            <h1 className="text-3xl font-bold text-gray-300 mb-6">Dashboard</h1>
             {error && <p style={{color: 'red'}}>{error}</p>}
             {stats && (
                 <div className="mb-8">
-                    <h2 className="text-2xl font-bold mb-4">Your Stats</h2>
+                    <h2 className="text-2xl font-bold mb-4 text-gray-300">Your Stats</h2>
                     <div className="grid grid-cols-3 gap-4">
                         <div className="bg-green-100 border border-green-300 rounded-lg p-4">
                             <p className="text-gray-600 text-sm">Total Problems</p>
@@ -134,18 +134,29 @@ const filteredProblems = problems.filter(problem => {
             )}
 
             {problems.filter(p => p.needsReview).length > 0 && (
-                <div>
-                    <h2>Reviewed Problems</h2>
-                    {problems.filter(p => p.needsReview).map(problem => (
-                        <div key ={problem.id}>
-                            <h3>{problem.title}</h3>
-                            <p>Category: {problem.category} | Difficulty: {problem.difficulty}</p>
-                            <button onClick={() => toggleReview(problem.id)}>Remove from Review</button>
+                <div className="mb-8 bg-orange-50 border border-orange-300 rounded-lg p-6">
+                    <h2 className="text-xl font-bold mb-4 text-orange-800">Review Queue</h2>
+                    <div className="grid grid-cols-1 gap-3">
+                        {problems.filter(p => p.needsReview).map(problem => (
+                            <div key={problem.id} className="bg-white border border-orange-200 rounded-lg p-4 flex justify-between items-center">
+                                <div>
+                                    <h3 className="font-bold">{problem.title}</h3>
+                                    <p className="text-sm text-gray-600">
+                                        {problem.category} • {problem.difficulty}
+                                    </p>
+                                </div>
+                                <button
+                                    onClick={() => toggleReview(problem.id)}
+                                    className="bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold rounded px-3 py-1"
+                                >
+                                    Remove from Review Queue
+                                </button>
+                            </div>
+                        ))}
                         </div>
-                    ))}
-                  </div>  
+                    </div>
             )}
-                    <div className="mb-8 bg-white border border-gray-300 rounded-lg p-6">
+                    <div className="mb-8 bg-gray-300 border border-gray-300 rounded-lg p-6">
                         <h2 className="text-xl font-bold mb-4">Add Problem</h2>
                         <form onSubmit={addProblem} className="grid grid-cols-1 gap-4">
                             <input
@@ -153,19 +164,19 @@ const filteredProblems = problems.filter(problem => {
                             placeHolder="Title"
                             value={title}
                             onChange={(e)=> setTitle(e.target.value)}
-                            className="border border-gray-300 rounded-lg p-2"
+                            className="bg-gray-100 border border-gray-300 rounded-lg p-2"
                             />
                             <input
                             type="number"
                             placeHolder="Problem Number"
                             value={number}
                             onChange={(e)=> setNumber(e.target.value)}
-                            className="border border-gray-300 rounded-lg p-2"
+                            className="bg-gray-100 border border-gray-300 rounded-lg p-2"
                             />
                             <select
                             value={difficulty}
                             onChange={(e) => setDifficulty(e.target.value)}
-                            className="border border-gray-300 rounded-lg p-2"
+                            className="bg-gray-100 border border-gray-300 rounded-lg p-2"
                             >
                                 <option value="easy">Easy</option>
                                 <option value="medium">Medium</option>
@@ -174,7 +185,7 @@ const filteredProblems = problems.filter(problem => {
                             <select
                             value={category}
                             onChange={(e) => setCategory(e.target.value)}
-                            className="border border-gray-300 rounded-lg p-2"
+                            className="bg-gray-100 border border-gray-300 rounded-lg p-2"
                             >
                                 <option value="">Select Category</option>
                                 <option value="arrays">Arrays</option>
@@ -185,7 +196,7 @@ const filteredProblems = problems.filter(problem => {
                             <select
                             value={status}
                             onChange={(e) => setStatus(e.target.value)}
-                            className="border border-gray-300 rounded-lg p-2"
+                            className="bg-gray-100 border border-gray-300 rounded-lg p-2"
                             >
                                 <option value="unsolved">Unsolved</option>
                                 <option value="attempted">Attempted</option>
@@ -196,14 +207,14 @@ const filteredProblems = problems.filter(problem => {
                             placeHolder="Notes (optional)"
                             value={notes}
                             onChange={(e) => setNotes(e.target.value)}
-                            className="border border-gray-300 rounded-lg p-2"
+                            className="bg-gray-100 border border-gray-300 rounded-lg p-2"
                             />
                             <input
                             type="text"
                             placeHolder= "LeetCode URL (optional)"
                             value={url}
                             onChange={(e) => setUrl(e.target.value)}
-                            className="border border-gray-300 rounded-lg p-2"
+                            className="bg-gray-100 border border-gray-300 rounded-lg p-2"
                             />
                             <button
                                 type="submit"
@@ -214,13 +225,13 @@ const filteredProblems = problems.filter(problem => {
                         </form>
                     </div>
 
-            <div className="mb-8 bg-white border border-gray-300 rounded-lg p-6">
+            <div className="mb-8 bg-gray-300 border border-gray-300 rounded-lg p-6">
                 <h2 className="text-xl font-bold mb-4">Filters</h2>
                 <div className="grid grid-cols-4 gap-4">
                     <select
                     value={filterCategory}
                     onChange={(e) => setFilterCategory(e.target.value)}
-                    className="border border-gray-300 rounded-lg p-2"
+                    className="bg-gray-100 border border-gray-300 rounded-lg p-2"
                     >
                         <option value="all">All Categories</option>
                         <option value="arrays">Arrays</option>
@@ -231,7 +242,7 @@ const filteredProblems = problems.filter(problem => {
                     <select
                     value={filterDifficulty}
                     onChange={(e) => setFilterDifficulty(e.target.value)}
-                    className="border border-gray-300 rounded-lg p-2"
+                    className="bg-gray-100 border border-gray-300 rounded-lg p-2"
                     >
                         <option value="all">All Difficulties</option>
                         <option value="easy">Easy</option>
@@ -241,7 +252,7 @@ const filteredProblems = problems.filter(problem => {
                     <select
                     value={filterStatus}
                     onChange={(e) => setFilterStatus(e.target.value)}
-                    className="border border-gray-300 rounded-lg p-2"
+                    className="bg-gray-100 border border-gray-300 rounded-lg p-2"
                     >
                         <option value="all">All Statuses</option>
                         <option value="unsolved">Unsolved</option>
@@ -253,18 +264,18 @@ const filteredProblems = problems.filter(problem => {
                     placeholder="Search problems..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    className="border border-gray-300 rounded-lg p-2"
+                    className="bg-gray-100 border border-gray-300 rounded-lg p-2"
                 />
                 </div>
             </div>
-            <div className="bg-white border border-gray-300 rounded-lg p-6">
+            <div className="bg-gray-300 border border-gray-300 rounded-lg p-6">
                 <h2 className="text-xl font-bold mb-4">Problems</h2>
                 {filteredProblems.length===0 ? (
                     <p className="text-gray-500">No problems Added Yet! Add One!</p>
                 ):(
                     <div className="grid grid-cols-1 gap-4">
                         {filteredProblems.map(problem => (
-                            <div key={problem.id} className="border border-gray-200 rounded-lg p-4 flex justify-between items-center">
+                            <div key={problem.id} className="bg-gray-100 border border-gray-200 rounded-lg p-4 flex justify-between items-center">
                                 <div>
                                     <h3 className="font-bold text-lg">
                                         #{problem.number} {problem.title}

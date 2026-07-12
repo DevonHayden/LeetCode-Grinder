@@ -17,7 +17,7 @@ function Layout(){
   return(
     <div className="flex">
       {!hideNavbar && <Navbar />}
-      <div className={!hideNavbar ? 'ml-64 flex-1 p-8' : 'flex-1'}>
+      <div className={!hideNavbar ? 'ml-64 flex-1 p-8 bg-gray-700 min-h-screen' : 'flex-1'}>
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register/>}/>

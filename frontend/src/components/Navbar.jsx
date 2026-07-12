@@ -18,7 +18,7 @@ function Navbar() {
                     <Link to="/patterns" className="p-3 rounded hover:bg-gray-700 transition">
                     Patterns
                     </Link>
-                    <Link to="/resources" className="p-3 rounded hover:bg-gray-700 transition">
+                    <Link to="/resources" className="p-3 rounded hover:bg-gray-800 transition">
                     Resources
                     </Link>
                 </nav>
