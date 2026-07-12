@@ -46,16 +46,18 @@ function Patterns() {
 
   return (
     <div>
-      <h1>Patterns Cheat Sheet</h1>
-      <p>Common LeetCode patterns to recognize during interviews</p>
+      <h1 className ="text-3xl font-bold text-gray-300 mb-2">Patterns Cheat Sheet</h1>
+      <p className="text-gray-400 mb-6">Common LeetCode patterns to recognize during interviews</p>
+      <div className="grid grid-cols-1 gap-4">
       {patterns.map(pattern => (
-        <div key={pattern.name}>
-          <h2>{pattern.name}</h2>
-          <p><strong>What it is:</strong> {pattern.description}</p>
-          <p><strong>When to use:</strong> {pattern.whenToUse}</p>
-          <p><strong>Examples:</strong> {pattern.example}</p>
+        <div key={pattern.name} className="bg-gray-300 border border-gray-300 rounded-lg p-6">
+          <h2 className="text-xl font-bold text-green-800 mb-2">{pattern.name}</h2>
+          <p className="mb-2"><strong className="text-gray-700">What it is:</strong> {pattern.description}</p>
+          <p className="mb-2"><strong className="text-gray-700">When to use:</strong> {pattern.whenToUse}</p>
+          <p><strong className="text-gray-700">Examples:</strong> {pattern.example}</p>
         </div>
       ))}
+    </div>
     </div>
   )
 }
