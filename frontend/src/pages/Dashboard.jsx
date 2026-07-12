@@ -145,51 +145,74 @@ const filteredProblems = problems.filter(problem => {
                     ))}
                   </div>  
             )}
-            <h2>Add Problem</h2>
-                 <form onSubmit={addProblem}>
-                    <input
-                        type="text"
-                        placeHolder="Title"
-                        value={title}
-                        onChange={(e)=> setTitle(e.target.value)}
-                        />
-                    <input
-                        type="number"
-                        placeHolder="Problem Number"
-                        value={number}
-                        onChange={(e) => setNumber(e.target.value)}
-                        />
-                    <select value={difficulty} onChange={(e)=> setDifficulty(e.target.value)}>
-                        <option value="easy">Easy</option>
-                        <option value="medium">Medium</option>
-                        <option value="hard">Hard</option>
-                    </select>
-                    <select value={category} onChange={(e) => setCategory(e.target.value)}>
-                        <option value="">Select Category</option>
-                        <option value="arrays">Arrays</option>
-                        <option value="trees">Trees</option>
-                        <option value="graphs">Graphs</option>
-                        <option value="dp">DP</option>
-                    </select>
-                     <select value={status} onChange={(e) => setStatus(e.target.value)}>
-                        <option value="unsolved">Unsolved</option>
-                        <option value="attempted">Attempted</option>
-                        <option value="solved">Solved</option>
-                    </select>
-                    <input
-                        type="text"
-                        placeHolder="Notes (optional)"
-                        value={notes}
-                        onChange={(e)=> setNotes(e.target.value)}
-                        />
-                    <input
-                        type="text"
-                        placeHolder="LeetCode URl (optional)"
-                        value={url}
-                        onChange={(e)=> setUrl(e.target.value)}
-                        />
-                    <button type ="submit">Add Problem</button>
-                    </form>
+                    <div className="mb-8 bg-white border border-gray-300 rounded-lg p-6">
+                        <h2 className="text-xl font-bold mb-4">Add Problem</h2>
+                        <form onSubmit={addProblem} className="grid grid-cols-1 gap-4">
+                            <input
+                            type="text"
+                            placeHolder="Title"
+                            value={title}
+                            onChange={(e)=> setTitle(e.target.value)}
+                            className="border border-gray-300 rounded-lg p-2"
+                            />
+                            <input
+                            type="number"
+                            placeHolder="Problem Number"
+                            value={number}
+                            onChange={(e)=> setNumber(e.target.value)}
+                            className="border border-gray-300 rounded-lg p-2"
+                            />
+                            <select
+                            value={difficulty}
+                            onChange={(e) => setDifficulty(e.target.value)}
+                            className="border border-gray-300 rounded-lg p-2"
+                            >
+                                <option value="easy">Easy</option>
+                                <option value="medium">Medium</option>
+                                <option value="hard">Hard</option>
+                            </select>
+                            <select
+                            value={category}
+                            onChange={(e) => setCategory(e.target.value)}
+                            className="border border-gray-300 rounded-lg p-2"
+                            >
+                                <option value="">Select Category</option>
+                                <option value="arrays">Arrays</option>
+                                <option value="trees">Trees</option>
+                                <option value="graphs">Graphs</option>
+                                <option value="dp">DP</option>
+                            </select>
+                            <select
+                            value={status}
+                            onChange={(e) => setStatus(e.target.value)}
+                            className="border border-gray-300 rounded-lg p-2"
+                            >
+                                <option value="unsolved">Unsolved</option>
+                                <option value="attempted">Attempted</option>
+                                <option value="solved">Solved</option>
+                            </select>
+                            <input
+                            type="text"
+                            placeHolder="Notes (optional)"
+                            value={notes}
+                            onChange={(e) => setNotes(e.target.value)}
+                            className="border border-gray-300 rounded-lg p-2"
+                            />
+                            <input
+                            type="text"
+                            placeHolder= "LeetCode URL (optional)"
+                            value={url}
+                            onChange={(e) => setUrl(e.target.value)}
+                            className="border border-gray-300 rounded-lg p-2"
+                            />
+                            <button
+                                type="submit"
+                                className="bg-green-600 hover:bg-green-700 text-white font-semibold rounded p-2 col-span-2"
+                            >
+                                Add Problem
+                            </button>
+                        </form>
+                    </div>
 
             <h2>Filters</h2>
             <select value={filterCategory} onChange ={(e) => setFilterCategory(e.target.value)}>
