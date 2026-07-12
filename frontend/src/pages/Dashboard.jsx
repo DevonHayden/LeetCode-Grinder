@@ -110,15 +110,27 @@ const filteredProblems = problems.filter(problem => {
             <h1>Dashboard</h1>
             {error && <p style={{color: 'red'}}>{error}</p>}
             {stats && (
-                <div>
-                    <h2>Your Stats</h2>
-                    <p>Total Problems: {stats.totalProblems}</p>
-                    <p>Total Solved: {stats.totalSolved}</p>
-                    <h3>Solved by Difficulty</h3>
-                    {stats.byDifficulty.map(item => (
-                        <p key={item.difficulty}>{item.difficulty}: {item._count}</p>
-                    ))}
-                </div>
+                <div className="mb-8">
+                    <h2 className="text-2xl font-bold mb-4">Your Stats</h2>
+                    <div className="grid grid-cols-3 gap-4">
+                        <div className="bg-green-100 border border-green-300 rounded-lg p-4">
+                            <p className="text-gray-600 text-sm">Total Problems</p>
+                            <p className="text-3xl font-bold text-green-700">{stats.totalProblems}</p>
+                        </div>
+                        <div className="bg-orange-100 border border-orange-300 rounded-lg p-4">
+                            <p className="text-gray-600 text-sm">Total Solved</p>
+                            <p className="text-3xl font-bold text-orange-700">{stats.totalSolved}</p>
+                        </div>
+                        <div className="bg-gray-100 border border-gray-300 rounded-lg p-4">
+                            <p className="text-gray-600 text-sm">Solved by Difficulty</p>
+                            {stats.byDifficulty.map(item => (
+                                <p key={item.difficulty} className="text-sm font-semibold">
+                                    {item.difficulty}: {item._count}
+                                </p>
+                            ))}
+                        </div>
+                    </div>
+                    </div>
             )}
 
             {problems.filter(p => p.needsReview).length > 0 && (
