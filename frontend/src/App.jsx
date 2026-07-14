@@ -9,7 +9,7 @@ import Patterns from './pages/Patterns'
 import Resources from './pages/Resources'
 //importing from Resources.jsx
 import Navbar from './components/Navbar'
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom'
 
 function Layout(){
   const location = useLocation()
@@ -24,6 +24,7 @@ function Layout(){
           <Route path="/dashboard" element={<Dashboard/>} />
           <Route path="/patterns" element={<Patterns/>} />
           <Route path="/resources" element={<Resources/>} />
+          <Route path="/" element={<Navigate to="/login" />} />
         </Routes>
       </div>
     </div>
