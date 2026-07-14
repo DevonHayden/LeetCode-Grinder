@@ -1,5 +1,4 @@
 require('dotenv').config()
-console.log('DATABASE_URL:', process.env.DATABASE_URL)
 const { PrismaClient } = require('@prisma/client')
 //imports the prisma client that was made from the migration (previous push)
 //lets us query our db using js not sql
