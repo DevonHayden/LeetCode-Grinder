@@ -44,7 +44,7 @@ const filteredProblems = problems.filter(problem => {
     }, [])
     const fetchProblems = async() =>{
         try{
-            const response = await axios.get('http://localhost:3000/api/problems', {
+            const response = await axios.get(`${API_URL}/api/problems`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -57,7 +57,7 @@ const filteredProblems = problems.filter(problem => {
 
     const fetchStats = async() => {
         try{
-            const response = await axios.get('http://localhost:3000/api/problems/stats', {
+            const response = await axios.get(`${API_URL}/api/problems/stats`, {
                 headers: {Authorization: `Bearer ${token}`}
             })
             setStats(response.data)
@@ -71,14 +71,14 @@ const filteredProblems = problems.filter(problem => {
         e.preventDefault()
         try{
             if(editingId){
-                await axios.put(`http://localhost:3000/api/problems/${editingId}`, {
+                await axios.put(`${API_URL}/api/problems/${editingId}`, {
                     title, number: parseInt(number), difficulty, category, status, notes, url
                 }, {
                     headers:{Authorization: `Bearer ${token}`}
                 })
                 setEditingId(null)
             } else {
-                await axios.post('http://localhost:3000/api/problems',{
+                await axios.post(`${API_URL}/api/problems`,{
                     title, number: parseInt(number), difficulty, category, status, notes, url
                 }, {
                     headers:{Authorization: `Bearer ${token}`}
@@ -98,7 +98,7 @@ const filteredProblems = problems.filter(problem => {
 
     const deleteProblem = async (id) => {
         try{
-            await axios.delete(`http://localhost:3000/api/problems/${id}`, {
+            await axios.delete(`${API_URL}/api/problems/${id}`, {
                 headers: {Authorization: `Bearer ${token}`}
             })
             fetchProblems()
@@ -122,7 +122,7 @@ const filteredProblems = problems.filter(problem => {
 
     const toggleReview = async (id) => {
         try{
-            await axios.patch(`http://localhost:3000/api/problems/${id}/review`, {}, {
+            await axios.patch(`${API_URL}/api/problems/${id}/review`, {}, {
                 headers: {Authorization: `Bearer ${token}`}
             })
             fetchProblems()
