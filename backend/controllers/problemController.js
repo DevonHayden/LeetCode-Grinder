@@ -39,6 +39,15 @@ const createProblem = async(req, res) =>{
     try{
         const{title, number, difficulty, category, status, notes, url} = req.body
         //all fields for leetcode probs
+        if(!title || !difficulty || !category){
+            return res.status(400).json({message: 'Title, difficulty, and category are required'})
+        }
+        if(!['easy', 'medium', 'hard'].includes(difficulty)){
+            return res.status(400).json({message: 'Difficulty must be easy, medium, or hard'})
+        }
+        if(number && isNaN(parseInt(number))){
+            return res.status(400).json({message: 'Problem number must be a valid integer'})
+        }
         const problem = await prisma.problem.create({
             data:{
                 title, number, difficulty, category,
@@ -60,6 +69,12 @@ const updateProblem = async(req, res) =>{
     try{
         const{id} = req.params
         const {title, number, difficulty, category, status, notes, url} = req.body
+        const existing = await prisma.problem.findUnique({
+            where:{id: parseInt(id)}
+        })
+        if(!existing || existing.userId !== req.user.userId){
+            return res.status(404).json({message:'Problem not found'})
+        }
         const problem = await prisma.problem.update({
             where:{id: parseInt(id),},
             data:{title, number, difficulty, category, status, notes, url}
@@ -73,6 +88,12 @@ const updateProblem = async(req, res) =>{
 const deleteProblem = async (req, res) =>{
     try{
         const{id} = req.params
+        const problem = await prisma.problem.findUnique({
+            where:{id: parseInt(id)}
+        })
+        if(!problem || problem.userId !== req.user.userId){
+            return res.status(404).json({message:'Problem not found'})
+        }
         await prisma.problem.delete({
             where:{id: parseInt(id)}
         })
@@ -88,7 +109,9 @@ const toggleReview = async (req, res) =>{
         const problem = await prisma.problem.findUnique({
             where:{id: parseInt(id)}
         })
-
+        if(!problem || problem.userId !== req.user.userId){
+            return res.status(404).json({message:'Problem not found'})
+        }
         const updatedProblem = await prisma.problem.update({
             where:{id: parseInt(id)},
             data:{needsReview: !problem.needsReview}
