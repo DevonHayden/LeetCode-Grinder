@@ -2,8 +2,16 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 const cors = require ('cors')
+const rateLimit = require('express-rate-limit')
+const helmet = require('helmet')
+const authLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 20,
+    message:{message: 'Too many attempts, please try again later'}
+})
 
 app.use(express.json())
+app.use(helmet())
 //middleware going through the json\
 app.use(cors({
     origin: 'http://localhost:5173'
@@ -13,7 +21,7 @@ const authRoutes = require('./routes/auth')
 //importing auth router (from auth.js)
 const problemRoutes = require('./routes/problems')
 app.use('/api/problems', problemRoutes)
-app.use('/api/auth', authRoutes)
+app.use('/api/auth', authLimiter, authRoutes)
 // mounts the auth routes at /api/auth
 // so /register becomes /api/auth/register
 // and /login becomes /api/auth/login
