@@ -54,4 +54,15 @@ npm run dev
 
 ## Screenshots
 
+### Dashboard
+![Dashboard](screenshots/dashboard.png)
+
+### Login
+![Login](screenshots/login.png)
+
+### Patterns Cheat Sheet
+![Patterns](screenshots/patterns.png)
+
+### Resources
+![Resources](screenshots/resources.png)
 
