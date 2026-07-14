@@ -16,7 +16,7 @@ app.use(express.json())
 app.use(helmet())
 //middleware going through the json\
 app.use(cors({
-    origin: 'http://localhost:5173'
+    origin: ['http://localhost:5173', 'https://leet-code-grinder.vercel.app']
 }))
 
 const authRoutes = require('./routes/auth')
