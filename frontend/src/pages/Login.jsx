@@ -2,6 +2,8 @@ import {useState} from 'react'
 import axios from 'axios'
 import {useNavigate, Link} from 'react-router-dom'
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+
 function Login(){
     const[email, setEmail] = useState('')
     const[password, setPassword] = useState('')
@@ -12,7 +14,7 @@ function Login(){
         e.preventDefault()
         //prevents page from refreshing on a submit
         try{
-            const response = await axios.post('http://localhost:3000/api/auth/login', {
+            const response = await axios.post(`${API_URL}/api/auth/login`, {
                 email, password
             })
             //sending login request to B.E

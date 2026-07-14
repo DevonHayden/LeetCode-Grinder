@@ -2,6 +2,9 @@ import {useState} from 'react'
 import axios from 'axios'
 import {useNavigate, Link} from 'react-router-dom'
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+
+
 function Register(){
     const[name, setName] = useState('')
     const[email, setEmail] = useState('')
@@ -12,11 +15,11 @@ function Register(){
     const handleSubmit = async(e) =>{
         e.preventDefault()
         try{
-            await axios.post('http://localhost:3000/api/auth/register', {
+            await axios.post(`${API_URL}/api/auth/register`, {
                 name, email, password
             })
             //after register go to dashboard
-            const loginResponse = await axios.post('http://localhost:3000/api/auth/login', {
+            const loginResponse = await axios.post(`${API_URL}/api/auth/login`, {
                 email, password
             })
             localStorage.setItem('token', loginResponse.data.token)
