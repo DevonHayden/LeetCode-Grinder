@@ -4,6 +4,7 @@ const app = express()
 const cors = require ('cors')
 const rateLimit = require('express-rate-limit')
 const helmet = require('helmet')
+const PORT = process.env.PORT || 3000
 const authLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 20,
@@ -34,7 +35,7 @@ app.get('/api/protected', protect, (req, res) => {
     res.json({message: 'You are auhthorized', user: req.user})
 })
 
-app.listen(3000, ()=>{
-    console.log('Server running on port 3000')
+app.listen(PORT, ()=>{
+    console.log(`Server running on port ${PORT}`)
 })
 
