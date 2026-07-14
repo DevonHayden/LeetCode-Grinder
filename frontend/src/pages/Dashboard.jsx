@@ -21,7 +21,8 @@ function Dashboard(){
 // 'all' means no filter applied for that field
     const [stats, setStats] = useState(null)
     const [search, setSearch] = useState('')
-
+    const [editingId, setEditingId] = useState(null)
+    //null means no problem is being edited remember this
 
 const filteredProblems = problems.filter(problem => {
         const matchesCategory = filterCategory === 'all' || problem.category === filterCategory
@@ -66,11 +67,20 @@ const filteredProblems = problems.filter(problem => {
     const addProblem = async (e)=>{
         e.preventDefault()
         try{
-            await axios.post('http://localhost:3000/api/problems',{
-                title, number: parseInt(number), difficulty, category, status, notes, url
-            }, {
-                headers:{Authorization: `Bearer ${token}`}
-            })
+            if(editingId){
+                await axios.put(`http://localhost:3000/api/problems/${editingId}`, {
+                    title, number: parseInt(number), difficulty, category, status, notes, url
+                }, {
+                    headers:{Authorization: `Bearer ${token}`}
+                })
+                setEditingId(null)
+            } else {
+                await axios.post('http://localhost:3000/api/problems',{
+                    title, number: parseInt(number), difficulty, category, status, notes, url
+                }, {
+                    headers:{Authorization: `Bearer ${token}`}
+                })
+            }
                 setTitle('')
                 setNumber('')
                 setCategory('')
@@ -79,7 +89,7 @@ const filteredProblems = problems.filter(problem => {
                 fetchProblems()
                 fetchStats()
         }catch(err){
-            setError('Failed to add problem')
+            setError(editingId ? 'Failed to update problem' : 'Failed to add problem')
         }
     }
 
@@ -94,6 +104,19 @@ const filteredProblems = problems.filter(problem => {
             setError('Failed to delete problem')
         }
     } 
+
+    const startEdit = (problem) => {
+        setEditingId(problem.id)
+        //ie fill with problems curr data
+        setTitle(problem.title)
+        setNumber(problem.number || '')
+        setDifficulty(problem.difficulty)
+        setCategory(problem.category)
+        setStatus(problem.status)
+        setNotes(problem.notes || '')
+        setUrl(problem.url || '')
+    }
+
     const toggleReview = async (id) => {
         try{
             await axios.patch(`http://localhost:3000/api/problems/${id}/review`, {}, {
@@ -157,7 +180,7 @@ const filteredProblems = problems.filter(problem => {
                     </div>
             )}
                     <div className="mb-8 bg-gray-300 border border-gray-300 rounded-lg p-6">
-                        <h2 className="text-xl font-bold mb-4">Add Problem</h2>
+                        <h2 className="text-xl font-bold mb-4">{editingId ? 'Edit Problem' : 'Add Problem'}</h2>
                         <form onSubmit={addProblem} className="grid grid-cols-1 gap-4">
                             <input
                             type="text"
@@ -220,7 +243,7 @@ const filteredProblems = problems.filter(problem => {
                                 type="submit"
                                 className="bg-green-600 hover:bg-green-700 text-white font-semibold rounded p-2 col-span-2"
                             >
-                                Add Problem
+                                {editingId ? 'Update Problem' : 'Add Problem'}
                             </button>
                         </form>
                     </div>
@@ -290,6 +313,15 @@ const filteredProblems = problems.filter(problem => {
                                     className="bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold rounded px-3 py-1"
                                     >
                                         {problem.needsReview ? 'Remove Review' : 'Add Review'}
+                                    </button>
+                                    <button 
+                                    onClick={() => startEdit(problem)}
+                                    className={editingId === problem.id
+                                        ? "bg-green-800 text-white text-sm font-semibold rounded px-3 py-1"
+                                        : "bg-green-600 hover:bg-green-700 text-white text-sm font-semibold rounded px-3 py-1"
+                                    }
+                                    >
+                                        {editingId === problem.id ? 'Editing...' : 'Edit'}
                                     </button>
                                     <button
                                     onClick={()=> deleteProblem(problem.id)}
